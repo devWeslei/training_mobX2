@@ -43,7 +43,7 @@ class _HomeState extends State<Home> {
                 child: Text("Incrementar",
                     style: TextStyle(color: Colors.black, fontSize: 40)),
                 onPressed: (){
-                  controller.incrementar!();
+                  controller.incrementar();
                 },
               ),
             )
