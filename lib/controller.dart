@@ -6,13 +6,47 @@ class Controller = ControllerBase with _$Controller;
 //a utilização do mixin Store é para geração dos códigos automaticos
 abstract class ControllerBase with Store {
 
+  ControllerBase() {
+    autorun((_){
+      //Executa sempre que um observável tem seu estado alterado
+      print(email);
+      print(senha);
+      print(formularioValidado);
+    });
+  }
+
   @observable
-  int contador = 0;
+  String email = "";
+
+  @observable
+  String senha = "";
+
+  @computed
+  String get emailSenha => "$email - $senha";
+
+  @computed
+  bool get formularioValidado => email.length >= 5 && senha.length >= 5;
 
   @action
-  incrementar(){
-    contador++;
-  }
+  void setEmail ( valor ) => email = valor;
+
+  @action
+  void setSenha ( valor ) => senha = valor;
+
+
+
+
+
+
+
+
+  // @observable
+  // int contador = 0;
+  //
+  // @action
+  // incrementar(){
+  //   contador++;
+  // }
 
   /*var _contador = Observable(0);
   Action? incrementar;
