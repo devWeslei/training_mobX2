@@ -54,6 +54,46 @@ mixin _$Controller on ControllerBase, Store {
     });
   }
 
+  late final _$usuarioLogadoAtom =
+      Atom(name: 'ControllerBase.usuarioLogado', context: context);
+
+  @override
+  bool get usuarioLogado {
+    _$usuarioLogadoAtom.reportRead();
+    return super.usuarioLogado;
+  }
+
+  @override
+  set usuarioLogado(bool value) {
+    _$usuarioLogadoAtom.reportWrite(value, super.usuarioLogado, () {
+      super.usuarioLogado = value;
+    });
+  }
+
+  late final _$carregandoAtom =
+      Atom(name: 'ControllerBase.carregando', context: context);
+
+  @override
+  bool get carregando {
+    _$carregandoAtom.reportRead();
+    return super.carregando;
+  }
+
+  @override
+  set carregando(bool value) {
+    _$carregandoAtom.reportWrite(value, super.carregando, () {
+      super.carregando = value;
+    });
+  }
+
+  late final _$logarAsyncAction =
+      AsyncAction('ControllerBase.logar', context: context);
+
+  @override
+  Future<void> logar() {
+    return _$logarAsyncAction.run(() => super.logar());
+  }
+
   late final _$ControllerBaseActionController =
       ActionController(name: 'ControllerBase', context: context);
 
@@ -84,6 +124,8 @@ mixin _$Controller on ControllerBase, Store {
     return '''
 email: ${email},
 senha: ${senha},
+usuarioLogado: ${usuarioLogado},
+carregando: ${carregando},
 emailSenha: ${emailSenha},
 formularioValidado: ${formularioValidado}
     ''';

@@ -9,9 +9,9 @@ abstract class ControllerBase with Store {
   ControllerBase() {
     autorun((_){
       //Executa sempre que um observável tem seu estado alterado
-      print(email);
-      print(senha);
-      print(formularioValidado);
+      // print(email);
+      // print(senha);
+      // print(formularioValidado);
     });
   }
 
@@ -20,6 +20,12 @@ abstract class ControllerBase with Store {
 
   @observable
   String senha = "";
+
+  @observable
+  bool usuarioLogado = false;
+
+  @observable
+  bool carregando = false;
 
   @computed
   String get emailSenha => "$email - $senha";
@@ -32,6 +38,19 @@ abstract class ControllerBase with Store {
 
   @action
   void setSenha ( valor ) => senha = valor;
+
+  @action
+  Future<void> logar() async {
+
+    carregando = true;
+
+    //Processamento
+    await Future.delayed(Duration(seconds: 3));
+
+    carregando = false;
+    usuarioLogado = true;
+
+  }
 
 
 

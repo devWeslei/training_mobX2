@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 
 import 'controller.dart';
 
@@ -11,7 +12,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   /*int _contador = 0;
 
   _incrementar(){
@@ -21,6 +21,28 @@ class _HomeState extends State<Home> {
   }*/
 
   Controller controller = Controller();
+  ReactionDisposer? reactionDisposer;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // autorun((_){
+    //   print(controller.formularioValidado);
+    // });
+
+    reactionDisposer = reaction(
+        (_) => controller.usuarioLogado,
+        (valor){
+          print(valor);
+        }
+    );
+  }
+
+  @override
+  void dispose() {
+    reactionDisposer!();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,27 +75,26 @@ class _HomeState extends State<Home> {
             ),
             Padding(
               padding: EdgeInsets.all(16),
-              child: Observer(
-                  builder: (_){
-                    return Text(
-                        controller.formularioValidado
-                            ? "Validado"
-                            : "* Campos não validados"
-                    );
-                  }),
-              ),
-            Padding(
-              padding: EdgeInsets.all(16),
-              child: Observer(builder: (_){
-                return ElevatedButton(
-                  child: Text("Logar",
-                      style: TextStyle(color: Colors.black, fontSize: 30)),
-                  onPressed: controller.formularioValidado
-                      ? () {}
-                      : null,
-                );
-              })
+              child: Observer(builder: (_) {
+                return Text(controller.formularioValidado
+                    ? "Validado"
+                    : "* Campos não validados");
+              }),
             ),
+            Padding(
+                padding: EdgeInsets.all(16),
+                child: Observer(builder: (_) {
+                  return ElevatedButton(
+                    child: controller.carregando
+                        ? CircularProgressIndicator(
+                      valueColor:AlwaysStoppedAnimation(Colors.white),)
+                        : Text("Logar",
+                        style: TextStyle(color: Colors.black, fontSize: 30)),
+                    onPressed: controller.formularioValidado
+                        ? () {controller.logar();}
+                        : null,
+                  );
+                })),
           ],
         ),
       ),
