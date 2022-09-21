@@ -34,6 +34,7 @@ class _PrincipalState extends State<Principal> {
               TextButton(
                   onPressed: (){
                     _principalController.adicionarItem();
+                    Navigator.pop(context);
                   },
                   child: Text("Salvar")
               )
@@ -55,17 +56,32 @@ class _PrincipalState extends State<Principal> {
       body: Observer(
           builder: (_){
             return ListView.builder(
-              itemCount: _principalController.listaItens.length,
-              itemBuilder: (_, indice){
-                return ListTile(
-                  title: Text(_principalController.listaItens[indice]),
-                  onTap: (){
-
+          itemCount: _principalController.listaItens.length,
+          itemBuilder: (_, indice) {
+            //item é do tipo ItemController
+            var item = _principalController.listaItens[indice];
+            return Observer(builder: (_) {
+              return ListTile(
+                title: Text(
+                  item.titulo,
+                  style: TextStyle(
+                      decoration:
+                          item.marcado ? TextDecoration.lineThrough : null),
+                ),
+                leading: Checkbox(
+                  value: item.marcado,
+                  onChanged: (_) {
+                    item.alterarMarcado(item.marcado);
                   },
-                );
-              },
-            );
-          }
+                ),
+                onTap: () {
+                  item.marcado = !item.marcado;
+                },
+              );
+            });
+          },
+        );
+      }
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
