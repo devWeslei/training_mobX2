@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
+import 'package:mobx_aula/principal.dart';
 
 import 'controller.dart';
 
@@ -32,8 +33,12 @@ class _HomeState extends State<Home> {
 
     reactionDisposer = reaction(
         (_) => controller.usuarioLogado,
-        (valor){
-          print(valor);
+        (usuarioLogado){
+          if (usuarioLogado != null){
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_)=> Principal() )
+            );
+          }
         }
     );
   }
