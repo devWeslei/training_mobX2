@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mobx_aula/principal.dart';
+import 'package:provider/provider.dart';
 
 import 'controller.dart';
 
@@ -21,7 +22,7 @@ class _HomeState extends State<Home> {
     });
   }*/
 
-  Controller controller = Controller();
+  late Controller controller;
   ReactionDisposer? reactionDisposer;
 
   @override
@@ -30,6 +31,8 @@ class _HomeState extends State<Home> {
     // autorun((_){
     //   print(controller.formularioValidado);
     // });
+
+    controller = Provider.of<Controller>(context);
 
     reactionDisposer = reaction(
         (_) => controller.usuarioLogado,
